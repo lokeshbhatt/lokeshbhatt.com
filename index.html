@@ -1,70 +1,165 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Life of Shri Shri Shri 1008 Daksh G Maharaj</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Homework Sharing Portal</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fff8f0;
+      background-color: #f4f6f9;
       color: #333;
-    }
-    header {
-      background-color: #d1a955;
       padding: 20px;
-      text-align: center;
-      color: white;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-    nav {
-      background: #f5deb3;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      margin: 0 15px;
-      color: #222;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    section {
-      padding: 20px;
-      max-width: 800px;
+      max-width: 600px;
       margin: auto;
     }
-    footer {
-      background: #d1a955;
-      color: white;
+
+    h2 {
       text-align: center;
-      padding: 15px;
+      color: #2b6777;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    button {
+      background-color: #2b6777;
+      color: white;
+      margin-top: 20px;
+      cursor: pointer;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #1f4f5f;
+    }
+
+    #submittedList {
+      margin-top: 40px;
+    }
+
+    li {
+      background: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      list-style: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
   </style>
 </head>
-  
 <body>
-<h2>Share Your Homework</h2>
-<form id="homeworkForm">
-  <label>Title:</label><br>
-  <input type="text" name="title" required><br><br>
 
-  <label>Subject:</label><br>
-  <input type="text" name="subject" required><br><br>
+  <h2>Submit Homework</h2>
 
-  <label>Description:</label><br>
-  <textarea name="description" rows="4" required></textarea><br><br>
+  <form id="homeworkForm">
 
-  <button type="submit">Submit</button>
-</form>
+    <label>Class:</label>
+    <select name="class" required>
+      <option value="" disabled selected>Select Class</option>
+      <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+      <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+    </select>
 
-<div id="submittedList">
-  <h3>Submitted Homework</h3>
-  <ul id="homeworkList"></ul>
-</div>
+    <label>Section:</label>
+    <select name="section" required>
+      <option value="" disabled selected>Select Section</option>
+      <option>A</option><option>B</option><option>C</option><option>D</option>
+      <option>E</option><option>F</option><option>G</option>
+    </select>
+
+    <label>Date:</label>
+    <input type="date" name="date" id="dateInput" required>
+
+    <label>Subject:</label>
+    <select name="subject" required>
+      <option value="" disabled selected>Select Subject</option>
+      <option>English</option>
+      <option>Maths</option>
+      <option>Science</option>
+      <option>Social</option>
+      <option>Hindi</option>
+      <option>Sanskrit</option>
+    </select>
+
+    <label>Description:</label>
+    <textarea name="description" rows="4" placeholder="Enter homework details..." required></textarea>
+
+    <button type="submit">Submit Homework</button>
+  </form>
+
+  <div id="submittedList">
+    <h3>Submitted Homework</h3>
+    <ul id="homeworkList"></ul>
+  </div>
+
+  <script>
+    const form = document.getElementById("homeworkForm");
+    const homeworkList = document.getElementById("homeworkList");
+
+    const savedHomework = JSON.parse(localStorage.getItem("homeworks")) || [];
+
+    function displayHomework() {
+      homeworkList.innerHTML = '';
+      savedHomework.forEach(hw => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>${hw.subject}</strong> - Class ${hw.class}${hw.section} on ${hw.date}<br>
+          ${hw.description}
+        `;
+        homeworkList.appendChild(li);
+      });
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const data = {
+        class: form.class.value,
+        section: form.section.value,
+        date: form.date.value,
+        subject: form.subject.value,
+        description: form.description.value
+      };
+
+      savedHomework.push(data);
+      localStorage.setItem("homeworks", JSON.stringify(savedHomework));
+
+      form.reset();
+      displayHomework();
+    });
+
+    // Disable Sundays in date picker
+    const dateInput = document.getElementById("dateInput");
+    dateInput.addEventListener("input", function () {
+      const date = new Date(this.value);
+      if (date.getDay() === 0) {
+        alert("Sundays are not allowed for homework entries.");
+        this.value = '';
+      }
+    });
+
+    displayHomework();
+  </script>
 
 </body>
 </html>
