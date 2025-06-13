@@ -1,164 +1,92 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Homework Sharing Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life of Shri Shri Shri 1008 Daksh G Maharaj</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      background: #fff8f0;
       color: #333;
+    }
+    header {
+      background-color: #d1a955;
       padding: 20px;
-      max-width: 1000px;
+      text-align: center;
+      color: white;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    nav {
+      background: #f5deb3;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 15px;
+      color: #222;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 20px;
+      max-width: 800px;
       margin: auto;
     }
-
-    h2 {
-      text-align: center;
-      color: #2b6777;
-    }
-
-    form {
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-
-    form > * {
-      flex: 1 1 auto;
-      min-width: 120px;
-    }
-
-    select, input, textarea, button {
-      padding: 8px;
-      font-size: 0.9em;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    textarea {
-      resize: none;
-    }
-
-    button {
-      background-color: #2b6777;
+    footer {
+      background: #d1a955;
       color: white;
-      border: none;
-      cursor: pointer;
-      min-width: 100px;
-    }
-
-    button:hover {
-      background-color: #1f4f5f;
-    }
-
-    #submittedList {
-      margin-top: 30px;
-    }
-
-    li {
-      background: #fff;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-      list-style: none;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      text-align: center;
+      padding: 15px;
     }
   </style>
 </head>
 <body>
 
-  <h2>Submit Homework</h2>
+  <header>
+    <h1>Shri Shri Shri 1008 Daksh G Maharaj</h1>
+    <p>A Life of Wisdom, Devotion and Simplicity</p>
+  </header>
 
-  <form id="homeworkForm">
-    <input type="date" name="date" id="dateInput" required>
+  <nav>
+    <a href="#intro">Introduction</a>
+    <a href="#teachings">Teachings</a>
+    <a href="#timeline">Life Journey</a>
+    <a href="#legacy">Legacy</a>
+  </nav>
 
-    <select name="class" required>
-      <option value="" disabled selected>Class</option>
-      <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-      <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-    </select>
+  <section id="intro">
+    <h2>Introduction</h2>
+    <p>Shri Shri Shri 1008 Daksh G Maharaj was a revered spiritual leader known for his deep compassion, profound knowledge, and simple living. His presence brought peace and direction to countless followers across India.</p>
+  </section>
 
-    <select name="section" required>
-      <option value="" disabled selected>Section</option>
-      <option>A</option><option>B</option><option>C</option><option>D</option>
-      <option>E</option><option>F</option><option>G</option>
-    </select>
+  <section id="teachings">
+    <h2>Core Teachings</h2>
+    <ul>
+      <li>Selfless Service to Humanity</li>
+      <li>Inner Peace through Meditation</li>
+      <li>Living in Harmony with Nature</li>
+      <li>Truth, Simplicity, and Love</li>
+    </ul>
+  </section>
 
-    <select name="subject" required>
-      <option value="" disabled selected>Subject</option>
-      <option>English</option>
-      <option>Maths</option>
-      <option>Science</option>
-      <option>Social</option>
-      <option>Hindi</option>
-      <option>Sanskrit</option>
-    </select>
+  <section id="timeline">
+    <h2>Life Journey</h2>
+    <p>From a young boy in a quiet village to a guiding light for thousands, his life was filled with remarkable stories of transformation, humility, and grace.</p>
+  </section>
 
-    <input type="text" name="description" placeholder="Brief Comment" required />
+  <section id="legacy">
+    <h2>Legacy</h2>
+    <p>Temples, schools, and community centers today stand in memory of his teachings. His spiritual path continues to guide new generations through literature, discourses, and devoted followers.</p>
+  </section>
 
-    <button type="submit">Upload</button>
-  </form>
-
-  <div id="submittedList">
-    <h3>Submitted Homework</h3>
-    <ul id="homeworkList"></ul>
-  </div>
-
-  <script>
-    const form = document.getElementById("homeworkForm");
-    const homeworkList = document.getElementById("homeworkList");
-    const savedHomework = JSON.parse(localStorage.getItem("homeworks")) || [];
-
-    function displayHomework() {
-      homeworkList.innerHTML = '';
-      savedHomework.forEach(hw => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <strong>${hw.subject}</strong> - Class ${hw.class}${hw.section} on ${hw.date}<br>
-          ${hw.description}
-        `;
-        homeworkList.appendChild(li);
-      });
-    }
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const data = {
-        date: form.date.value,
-        class: form.class.value,
-        section: form.section.value,
-        subject: form.subject.value,
-        description: form.description.value
-      };
-
-      savedHomework.push(data);
-      localStorage.setItem("homeworks", JSON.stringify(savedHomework));
-
-      form.reset();
-      displayHomework();
-    });
-
-    // Disable Sundays
-    document.getElementById("dateInput").addEventListener("input", function () {
-      const date = new Date(this.value);
-      if (date.getDay() === 0) {
-        alert("Sundays are not allowed for homework entries.");
-        this.value = '';
-      }
-    });
-
-    displayHomework();
-  </script>
+  <footer>
+    <p>© 2025 Daksh G Maharaj Memorial Trust</p>
+  </footer>
 
 </body>
 </html>
