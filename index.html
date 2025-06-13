@@ -45,48 +45,26 @@
     }
   </style>
 </head>
+  
 <body>
+<h2>Share Your Homework</h2>
+<form id="homeworkForm">
+  <label>Title:</label><br>
+  <input type="text" name="title" required><br><br>
 
-  <header>
-    <h1>Shri Shri Shri 1008 Daksh G Maharaj</h1>
-    <p>A Life of Wisdom, Devotion and Simplicity</p>
-  </header>
+  <label>Subject:</label><br>
+  <input type="text" name="subject" required><br><br>
 
-  <nav>
-    <a href="#intro">Introduction</a>
-    <a href="#teachings">Teachings</a>
-    <a href="#timeline">Life Journey</a>
-    <a href="#legacy">Legacy</a>
-  </nav>
+  <label>Description:</label><br>
+  <textarea name="description" rows="4" required></textarea><br><br>
 
-  <section id="intro">
-    <h2>Introduction</h2>
-    <p>Shri Shri Shri 1008 Daksh G Maharaj was a revered spiritual leader known for his deep compassion, profound knowledge, and simple living. His presence brought peace and direction to countless followers across India.</p>
-  </section>
+  <button type="submit">Submit</button>
+</form>
 
-  <section id="teachings">
-    <h2>Core Teachings</h2>
-    <ul>
-      <li>Selfless Service to Humanity</li>
-      <li>Inner Peace through Meditation</li>
-      <li>Living in Harmony with Nature</li>
-      <li>Truth, Simplicity, and Love</li>
-    </ul>
-  </section>
-
-  <section id="timeline">
-    <h2>Life Journey</h2>
-    <p>From a young boy in a quiet village to a guiding light for thousands, his life was filled with remarkable stories of transformation, humility, and grace.</p>
-  </section>
-
-  <section id="legacy">
-    <h2>Legacy</h2>
-    <p>Temples, schools, and community centers today stand in memory of his teachings. His spiritual path continues to guide new generations through literature, discourses, and devoted followers.</p>
-  </section>
-
-  <footer>
-    <p>© 2025 Daksh G Maharaj Memorial Trust</p>
-  </footer>
+<div id="submittedList">
+  <h3>Submitted Homework</h3>
+  <ul id="homeworkList"></ul>
+</div>
 
 </body>
 </html>
