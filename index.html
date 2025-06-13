@@ -10,7 +10,7 @@
       background-color: #f4f6f9;
       color: #333;
       padding: 20px;
-      max-width: 600px;
+      max-width: 1000px;
       margin: auto;
     }
 
@@ -21,32 +21,39 @@
 
     form {
       background: #fff;
-      padding: 20px;
+      padding: 15px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
     }
 
-    label {
-      font-weight: 500;
-      display: block;
-      margin-top: 15px;
+    form > * {
+      flex: 1 1 auto;
+      min-width: 120px;
     }
 
-    input, select, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
+    select, input, textarea, button {
+      padding: 8px;
+      font-size: 0.9em;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: none;
     }
 
     button {
       background-color: #2b6777;
       color: white;
-      margin-top: 20px;
-      cursor: pointer;
       border: none;
+      cursor: pointer;
+      min-width: 100px;
     }
 
     button:hover {
@@ -54,7 +61,7 @@
     }
 
     #submittedList {
-      margin-top: 40px;
+      margin-top: 30px;
     }
 
     li {
@@ -72,27 +79,22 @@
   <h2>Submit Homework</h2>
 
   <form id="homeworkForm">
+    <input type="date" name="date" id="dateInput" required>
 
-    <label>Class:</label>
     <select name="class" required>
-      <option value="" disabled selected>Select Class</option>
+      <option value="" disabled selected>Class</option>
       <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
       <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
     </select>
 
-    <label>Section:</label>
     <select name="section" required>
-      <option value="" disabled selected>Select Section</option>
+      <option value="" disabled selected>Section</option>
       <option>A</option><option>B</option><option>C</option><option>D</option>
       <option>E</option><option>F</option><option>G</option>
     </select>
 
-    <label>Date:</label>
-    <input type="date" name="date" id="dateInput" required>
-
-    <label>Subject:</label>
     <select name="subject" required>
-      <option value="" disabled selected>Select Subject</option>
+      <option value="" disabled selected>Subject</option>
       <option>English</option>
       <option>Maths</option>
       <option>Science</option>
@@ -101,10 +103,9 @@
       <option>Sanskrit</option>
     </select>
 
-    <label>Description:</label>
-    <textarea name="description" rows="4" placeholder="Enter homework details..." required></textarea>
+    <input type="text" name="description" placeholder="Brief Comment" required />
 
-    <button type="submit">Submit Homework</button>
+    <button type="submit">Upload</button>
   </form>
 
   <div id="submittedList">
@@ -115,7 +116,6 @@
   <script>
     const form = document.getElementById("homeworkForm");
     const homeworkList = document.getElementById("homeworkList");
-
     const savedHomework = JSON.parse(localStorage.getItem("homeworks")) || [];
 
     function displayHomework() {
@@ -134,9 +134,9 @@
       e.preventDefault();
 
       const data = {
+        date: form.date.value,
         class: form.class.value,
         section: form.section.value,
-        date: form.date.value,
         subject: form.subject.value,
         description: form.description.value
       };
@@ -148,9 +148,8 @@
       displayHomework();
     });
 
-    // Disable Sundays in date picker
-    const dateInput = document.getElementById("dateInput");
-    dateInput.addEventListener("input", function () {
+    // Disable Sundays
+    document.getElementById("dateInput").addEventListener("input", function () {
       const date = new Date(this.value);
       if (date.getDay() === 0) {
         alert("Sundays are not allowed for homework entries.");
