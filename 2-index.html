@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Homework Sharing Portal</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2b6777;
+    }
+
+    form {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    form > * {
+      flex: 1 1 auto;
+      min-width: 120px;
+    }
+
+    select, input, textarea, button {
+      padding: 8px;
+      font-size: 0.9em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    button {
+      background-color: #2b6777;
+      color: white;
+      border: none;
+      cursor: pointer;
+      min-width: 100px;
+    }
+
+    button:hover {
+      background-color: #1f4f5f;
+    }
+
+    #submittedList {
+      margin-top: 30px;
+    }
+
+    li {
+      background: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      list-style: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Submit Homework</h2>
+
+  <form id="homeworkForm">
+    <input type="date" name="date" id="dateInput" required>
+
+    <select name="class" required>
+      <option value="" disabled selected>Class</option>
+      <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+      <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+    </select>
+
+    <select name="section" required>
+      <option value="" disabled selected>Section</option>
+      <option>A</option><option>B</option><option>C</option><option>D</option>
+      <option>E</option><option>F</option><option>G</option>
+    </select>
+
+    <select name="subject" required>
+      <option value="" disabled selected>Subject</option>
+      <option>English</option>
+      <option>Maths</option>
+      <option>Science</option>
+      <option>Social</option>
+      <option>Hindi</option>
+      <option>Sanskrit</option>
+    </select>
+
+    <input type="text" name="description" placeholder="Brief Comment" required />
+
+    <button type="submit">Upload</button>
+  </form>
+
+  <div id="submittedList">
+    <h3>Submitted Homework</h3>
+    <ul id="homeworkList"></ul>
+  </div>
+
+  <script>
+    const form = document.getElementById("homeworkForm");
+    const homeworkList = document.getElementById("homeworkList");
+    const savedHomework = JSON.parse(localStorage.getItem("homeworks")) || [];
+
+    function displayHomework() {
+      homeworkList.innerHTML = '';
+      savedHomework.forEach(hw => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>${hw.subject}</strong> - Class ${hw.class}${hw.section} on ${hw.date}<br>
+          ${hw.description}
+        `;
+        homeworkList.appendChild(li);
+      });
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const data = {
+        date: form.date.value,
+        class: form.class.value,
+        section: form.section.value,
+        subject: form.subject.value,
+        description: form.description.value
+      };
+
+      savedHomework.push(data);
+      localStorage.setItem("homeworks", JSON.stringify(savedHomework));
+
+      form.reset();
+      displayHomework();
+    });
+
+    // Disable Sundays
+    document.getElementById("dateInput").addEventListener("input", function () {
+      const date = new Date(this.value);
+      if (date.getDay() === 0) {
+        alert("Sundays are not allowed for homework entries.");
+        this.value = '';
+      }
+    });
+
+    displayHomework();
+  </script>
+
+</body>
+</html>
